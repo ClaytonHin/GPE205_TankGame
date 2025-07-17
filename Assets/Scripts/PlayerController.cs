@@ -3,43 +3,62 @@ using UnityEngine;
 // Modify the parent class for this specific class; Specifically to inherit the methods and properties of our controller class
 public class PlayerController : Controller
 {
+    // Create keycodes the correlate the inputs on mouse and keyboard
+    // These will be used in combination with Input.GetKey to determine which key the player is pressing, and which action that correlates to
+    public KeyCode moveForwardKey;
+    public KeyCode moveBackwardKey;
+    public KeyCode rotateClockwiseKey;
+    public KeyCode rotateCounterClockwiseKey;
+
     // Start is called once before the first execution of Update after MonoBehaviour is created
-    void Start()
+    public override void Start()
     {
     }
-
 
     // Update is called once per frame
     // Use the override method to have this class constantly call the MakeDescisions loop within the parent Controller class every frame draw
-    protected override void Update()
+    public override void Update()
     {
-        // Run the Update method specified within the parent Controller class
-        base.Update();
+        // Run the MakeDescisions function to ensure that and inputs are updated per frame draw
+        MakeDescisions();
+    }
+
+    // OnDestroy function is called whenever the object this component is attached to gets destroyed/removed from the scene
+    public void OnDestroy()
+    {
+        
     }
 
 
-    protected override void MakeDescisions()
+    public override void MakeDescisions()
     {
-        // This is where the player controller will make descisions based on keyboard input
-        // Use Unity's build in Keyboard -> Joystick conversion controls.
+      // Check for player inputs using a series of if statements
+      //Check if the player is pressing W (Going forward)
+      if (Input.GetKey(moveForwardKey))
+        {
+            // Call the MoveForward function within the pawn class
+            pawn.MoveForward();
+        }
 
-        /* Create a vector3 that will store the directional value for which axis the player is moving in/towards 
-        (FOR EXAMPLE: If the player is moving forward in the x direcion, the Vector 3 would be (1,0,0) ) */
-        Vector3 moveVector = Vector3.zero;
+      //Check if the player is pressing S (Going backwards)
+      if (Input.GetKey(moveBackwardKey))
+        {
+            // Call the MoveBackward function within the pawn class
+            pawn.MoveBackward();
+        }
 
-        // Define the X value within the Vector3 to recieve input from any horizontal movements in a joystick fashion
-        moveVector.x = Input.GetAxis("Horizontal");
+      //Check if the player is pressing D (Rotating clockwise/right)
+      if (Input.GetKey(rotateClockwiseKey))
+        {
+            // Call the RotateClockwise function within the pawn class
+            pawn.RotateClockwise();
+        }    
 
-        // Define the Z value within the Vector3 to recieve input from any forwards/backwards movements in a joystick fashion
-        moveVector.z = Input.GetAxis("Vertical");
-
-        // Call the Move/MakeDescisions method, and only allow it to move in the Z axis
-        pawn.Move(new Vector3(0, 0, moveVector.z));
-
-        // Call the Rotate method, and only allow for roatation around the y axis
-        pawn.Rotate(new Vector3(0, moveVector.x, 0));
-
-        // This tells this method to run specifically the parents definition of MakeDescisions, instead of overriding/modifying it
-        base.MakeDescisions();
+      //Check if the player is pressing A (Rotating counterclockwise/left)
+      if (Input.GetKey(rotateCounterClockwiseKey))
+        {
+            // Call the RotateCounterClockwise function within the pawn class
+            pawn.RotateCounterClockwise();
+        }
     }
 }

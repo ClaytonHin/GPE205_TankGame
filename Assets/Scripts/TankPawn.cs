@@ -2,34 +2,41 @@ using UnityEngine;
 
 public class TankPawn : Pawn
 {
-    //NOTE: Controller Class Info -> TankPawn Class Info -> TankMover Class Info
-
-    // Create a tank mover object locally within this class
-    private TankMover mover;
-    // Define our Move function and modify how our tank pawn specifically should move / rotate
-    public override void Move(Vector3 directionVector)
+    // Create and define our overload functions
+    public override void Start()
     {
-        // Call the controller move method when the pawn needs to be moved/updated
-        mover.Move(directionVector);
+        //Get the mover component for the object this component is attached to / the tank
+        mover = GetComponent<Mover>();
+    }
+    public override void Update()
+    {
     }
 
-
-    public override void Rotate(Vector3 rotateVector)
+    // Override and define the MoveForward function
+    public override void MoveForward()
     {
-        // Call the controller rotate method when the pawn requests to rotate/update
-        mover.Rotate(rotateVector);
+        // Call the MoveForward function within the mover class
+        mover.MoveForward(moveSpeed);
     }
 
-
-    protected override void Start()
+    // Override and define the MoveBackward function
+    public override void MoveBackward()
     {
-        // Grab the tank mover component from the parent object and store it within our local mover object.
-        mover = GetComponent<TankMover>();
+        // Call the MoveBackward function within the mover class
+        mover.MoveBackward(moveSpeed);
     }
 
-
-    protected override void Update()
+    // Override and define the RotateClockwise function
+    public override void RotateClockwise()
     {
+        // Call the RotateClockwise function within the mover class
+        mover.RotateClockwise(turnSpeed);
+    }
 
+    // Override and define the RotateCounterClockwise function
+    public override void RotateCounterClockwise()
+    {
+        // Call the RotateClockwise function within the mover class
+        mover.RotateCounterClockwise(turnSpeed);
     }
 }

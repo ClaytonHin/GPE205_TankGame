@@ -5,20 +5,19 @@ public abstract class Pawn : MonoBehaviour
 {
     // Create a public variable that will determine the pawns movement speed
     public float moveSpeed;
-
     // Create another public variable that will determine the pawns rotation speed
-    public float rotateSpeed;
+    public float turnSpeed;
+
+    // Add the mover component to our pawn
+    [HideInInspector] public Mover mover;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    protected abstract void Start();
-
+    public abstract void Start();
     // Update is called once per frame
-    protected abstract void Update();
-
-    // Create a public method for moving the pawn, and pass in a direction vector so the pawn moves in the correct direction
-    public abstract void Move(Vector3 directionVector);
-
-    // Create another public method to handle pawn rotation
-    // Pass this method the value we want the yaw to be in terms of pawn rotation, so we can swivel the tank around it's Y axis. 
-    public abstract void Rotate(Vector3 rotateVector);
+    public abstract void Update();
+    // Create the outline for the movement functions, since they are within an abstract class
+    public abstract void MoveForward();
+    public abstract void MoveBackward();
+    public abstract void RotateClockwise();
+    public abstract void RotateCounterClockwise();
 }
