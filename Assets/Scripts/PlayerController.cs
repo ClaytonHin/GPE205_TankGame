@@ -1,4 +1,6 @@
 using UnityEngine;
+// Include the System.Collections.Generic library to access extra functionality
+using System.Collections.Generic;
 
 // Modify the parent class for this specific class; Specifically to inherit the methods and properties of our controller class
 public class PlayerController : Controller
@@ -9,6 +11,16 @@ public class PlayerController : Controller
     public KeyCode moveBackwardKey;
     public KeyCode rotateClockwiseKey;
     public KeyCode rotateCounterClockwiseKey;
+
+
+    // Awake is run when the object is first created
+    public void Awake()
+    {
+        // Add our player controller to our list of players within the GameManager Object
+        GameManager.instance.players.Add(this);
+        // Change our objects name, to better differentiate between multiple objects within one scene; 
+        gameObject.name = "Player " + GameManager.instance.players.Count;
+    }
 
     // Start is called once before the first execution of Update after MonoBehaviour is created
     public override void Start()
@@ -23,12 +35,12 @@ public class PlayerController : Controller
         MakeDescisions();
     }
 
-    // OnDestroy function is called whenever the object this component is attached to gets destroyed/removed from the scene
+    // OnDestroy runs whenever the object is removed/deleted from the scene
     public void OnDestroy()
     {
-        
+        // Remove our controller object from the GameManager list, whenever it is destroyed/removed
+        GameManager.instance.players.Remove(this);
     }
-
 
     public override void MakeDescisions()
     {

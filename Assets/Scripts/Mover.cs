@@ -1,4 +1,6 @@
 using UnityEngine;
+// Include the System.Collections.Generic library to access extra functionality
+using System.Collections.Generic;
 
 // Create a abstrct class method that NEVER exist on its own, it will always need a child attached;
 public abstract class Mover : MonoBehaviour

@@ -1,4 +1,6 @@
 using UnityEngine;
+// Include the System.Collections.Generic library to access extra functionality
+using System.Collections.Generic;
 
 // Keep the MonoBehavior parent class so our Controller children classes inherit all of the methods and properties from that class
 public abstract class Controller : MonoBehaviour

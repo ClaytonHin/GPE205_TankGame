@@ -1,4 +1,6 @@
 using UnityEngine;
+// Include the System.Collections.Generic library to access extra functionality
+using System.Collections.Generic;
 
 //Make this class absctract, since we want any pawns to specifically be children of this class
 public abstract class Pawn : MonoBehaviour

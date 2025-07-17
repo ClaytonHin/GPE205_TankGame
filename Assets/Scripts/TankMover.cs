@@ -1,5 +1,6 @@
 using UnityEngine;
-
+// Include the System.Collections.Generic library to access extra functionality
+using System.Collections.Generic;
 public class TankMover : Mover
 {
     // Create a private local variable to store the parents rigidbody component from its parent object (AKA the Tank's Rigidbody)

@@ -1,7 +1,17 @@
 using UnityEngine;
-
+// Include the System.Collections.Generic library to access extra functionality
+using System.Collections.Generic;
 public class TankPawn : Pawn
 {
+    // Awake is run when the object is first created
+    public void Awake()
+    {
+        // Add this pawn to the GameManager list
+        GameManager.instance.pawns.Add(this);
+        // Change the name of the object that is created, so it is easier to differentiate between them when they are all in one scene
+        gameObject.name = "TankPawn " + GameManager.instance.pawns.Count;
+    }
+
     // Create and define our overload functions
     public override void Start()
     {
@@ -10,6 +20,13 @@ public class TankPawn : Pawn
     }
     public override void Update()
     {
+    }
+
+    // OnDestroy runs whenever the object is destroyed/deleted from the scene
+    public void OnDestroy()
+    {
+        // Remove our tank pawn from the list whenever it is destroyed/removed from the scene
+        GameManager.instance.pawns.Remove(this);
     }
 
     // Override and define the MoveForward function
