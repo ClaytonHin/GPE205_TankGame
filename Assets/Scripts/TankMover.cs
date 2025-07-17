@@ -3,7 +3,7 @@ using UnityEngine;
 using System.Collections.Generic;
 public class TankMover : Mover
 {
-    // Create a private local variable to store the parents rigidbody component from its parent object (AKA the Tank's Rigidbody)
+    // Create a public variable to store the parents rigidbody component from its parent object (AKA the Tank's Rigidbody)
     public Rigidbody m_Rigidbody;
 
     // Override and define the mover functions

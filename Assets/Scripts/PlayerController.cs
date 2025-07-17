@@ -12,9 +12,8 @@ public class PlayerController : Controller
     public KeyCode rotateClockwiseKey;
     public KeyCode rotateCounterClockwiseKey;
 
-
     // Awake is run when the object is first created
-    public void Awake()
+    public override void Awake()
     {
         // Add our player controller to our list of players within the GameManager Object
         GameManager.instance.players.Add(this);

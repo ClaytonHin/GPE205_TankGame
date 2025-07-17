@@ -1,6 +1,7 @@
 using UnityEngine;
 // Include the System.Collections.Generic library to access extra functionality
 using System.Collections.Generic;
+using System;
 
 // Keep the MonoBehavior parent class so our Controller children classes inherit all of the methods and properties from that class
 public abstract class Controller : MonoBehaviour
@@ -10,6 +11,7 @@ public abstract class Controller : MonoBehaviour
     // NOTE: There is no need for this data to be accessable within the inspector
     [HideInInspector] public Pawn pawn;
 
+    public abstract void Awake();
     // Create the abstract function definintions, so they can be defined within the child controller class
     public abstract void Start();
     public abstract void Update();
