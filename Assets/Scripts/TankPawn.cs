@@ -6,17 +6,21 @@ public class TankPawn : Pawn
     // Awake is run when the object is first created
     public void Awake()
     {
-        // Add this pawn to the GameManager list
-        GameManager.instance.pawns.Add(this);
-        // Change the name of the object that is created, so it is easier to differentiate between them when they are all in one scene
-        gameObject.name = "TankPawn " + GameManager.instance.pawns.Count;
     }
 
     // Create and define our overload functions
     public override void Start()
     {
-        //Get the mover component for the object this component is attached to / the tank
+        // Get the mover component for the object this component is attached to / the tank
         mover = GetComponent<Mover>();
+        
+        // Get the shooter component for the object this component is attached to
+        shooter = GetComponent<Shooter>();
+
+        // Add this pawn to the GameManager list
+        GameManager.instance.pawns.Add(this);
+        // Change the name of the object that is created, so it is easier to differentiate between them when they are all in one scene
+        gameObject.name = "TankPawn " + GameManager.instance.pawns.Count;
     }
     public override void Update()
     {
@@ -55,5 +59,12 @@ public class TankPawn : Pawn
     {
         // Call the RotateClockwise function within the mover class
         mover.RotateCounterClockwise(turnSpeed);
+    }
+
+    // Override and define the Shoot function
+    public override void Shoot()
+    {
+        // Call the shoot method defined withinn the shooter class
+        shooter.TryShoot(this);
     }
 }

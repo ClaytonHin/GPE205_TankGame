@@ -25,10 +25,6 @@ public class Health : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            TakeDamage(1);
-        }
     }
 
     // Create a function to take damage, and pass in how much damage the object should take as a parameter

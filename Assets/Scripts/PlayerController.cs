@@ -11,19 +11,20 @@ public class PlayerController : Controller
     public KeyCode moveBackwardKey;
     public KeyCode rotateClockwiseKey;
     public KeyCode rotateCounterClockwiseKey;
+    public KeyCode shootKey = KeyCode.Mouse2;
 
     // Awake is run when the object is first created
     public override void Awake()
     {
-        // Add our player controller to our list of players within the GameManager Object
-        GameManager.instance.players.Add(this);
-        // Change our objects name, to better differentiate between multiple objects within one scene; 
-        gameObject.name = "Player " + GameManager.instance.players.Count;
     }
 
     // Start is called once before the first execution of Update after MonoBehaviour is created
     public override void Start()
     {
+        // Add our player controller to our list of players within the GameManager Object
+        GameManager.instance.players.Add(this);
+        // Change our objects name, to better differentiate between multiple objects within one scene; 
+        gameObject.name = "Player " + GameManager.instance.players.Count;
     }
 
     // Update is called once per frame
@@ -44,32 +45,37 @@ public class PlayerController : Controller
     public override void MakeDescisions()
     {
       // Check for player inputs using a series of if statements
-      //Check if the player is pressing W (Going forward)
+      // Check if the player is pressing W (Going forward)
       if (Input.GetKey(moveForwardKey))
         {
             // Call the MoveForward function within the pawn class
             pawn.MoveForward();
         }
 
-      //Check if the player is pressing S (Going backwards)
+      // Check if the player is pressing S (Going backwards)
       if (Input.GetKey(moveBackwardKey))
         {
             // Call the MoveBackward function within the pawn class
             pawn.MoveBackward();
         }
 
-      //Check if the player is pressing D (Rotating clockwise/right)
+      // Check if the player is pressing D (Rotating clockwise/right)
       if (Input.GetKey(rotateClockwiseKey))
         {
             // Call the RotateClockwise function within the pawn class
             pawn.RotateClockwise();
         }    
 
-      //Check if the player is pressing A (Rotating counterclockwise/left)
+      // Check if the player is pressing A (Rotating counterclockwise/left)
       if (Input.GetKey(rotateCounterClockwiseKey))
         {
             // Call the RotateCounterClockwise function within the pawn class
             pawn.RotateCounterClockwise();
+        }
+      // Check if the player is pressing the Left Mouse Button (Shoot)
+      if (Input.GetKeyDown(shootKey))
+        {
+            pawn.Shoot();
         }
     }
 }

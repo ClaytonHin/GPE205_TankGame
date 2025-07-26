@@ -16,9 +16,9 @@ public class GameManager : MonoBehaviour
     public List<TankPawn> pawns;
 
     // Create a Prefab header, so the inspector can know which type of prefab object these variables are listed within
-    // NOTE: Prefabs are a way storing and retrieving an object with all of its components attached; Think of this like a template
+    // NOTE: Prefabs are a way storing and retrieving an object with all of its components attached; Think of this like a object template
     [Header("Prefabs")]
-    // Create variables to store the player pawn, and the player controller within a prefab
+    // Create variables to store the player pawn, and the player controller prefabs
     public GameObject playerPawnPrefab;
     public GameObject playerControllerPrefab;
 
