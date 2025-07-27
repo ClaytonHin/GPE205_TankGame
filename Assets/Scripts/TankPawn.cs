@@ -1,6 +1,7 @@
-using UnityEngine;
 // Include the System.Collections.Generic library to access extra functionality
 using System.Collections.Generic;
+using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 public class TankPawn : Pawn
 {
     // Awake is run when the object is first created
@@ -16,6 +17,9 @@ public class TankPawn : Pawn
         
         // Get the shooter component for the object this component is attached to
         shooter = GetComponent<Shooter>();
+
+        // Get the health component for the object this component is attached to
+        health = GetComponent<Health>();
 
         // Add this pawn to the GameManager list
         GameManager.instance.pawns.Add(this);
@@ -59,6 +63,45 @@ public class TankPawn : Pawn
     {
         // Call the RotateClockwise function within the mover class
         mover.RotateCounterClockwise(turnSpeed);
+    }
+
+    // Override and define the rotateTowards Function
+    public override void RotateTowards(Vector3 targetPosition)
+    {
+        // NOTE: To find the difference between the targets:
+        // Take the end position/vector and subtract it's value from the starting position/vector
+        Vector3 vectorToTarget = targetPosition - this.transform.position;
+
+        // Find the direction needed to rotate the AI Pawn to face the vectorToTarget's value
+        Quaternion rotationVector = Quaternion.LookRotation(vectorToTarget, Vector3.up);
+
+        // Modify the rotation to smoothly transition from the current rotation, and the updated rotationVector value
+        // We can use a quanternion to achieve this smooth transition based on the pawn's turn speed value
+        this.transform.rotation = Quaternion.RotateTowards(this.transform.rotation, rotationVector, this.turnSpeed);
+
+    }
+
+    // Create a function to seek out a specific position
+    public override void Seek(Vector3 positionToSeek)
+    {
+        // Rotate twoards the target position
+        RotateTowards(positionToSeek);
+
+        // Move the Pawn forward
+        MoveForward();
+    }
+
+    // Create an overload function for the seek function, to search for a gameobject's position
+    public override void Seek(GameObject objectToSeek)
+    {
+        // Call the seek method and pass in the objects position/transform
+        Seek(objectToSeek.transform.position);
+    }
+
+    // Create an overload function for the seek function, to search for a controller's pawn position
+    public override void Seek(Controller controllerToSeek)
+    {
+        Seek(controllerToSeek.pawn.gameObject);
     }
 
     // Override and define the Shoot function

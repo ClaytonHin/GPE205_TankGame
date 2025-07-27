@@ -20,6 +20,8 @@ public abstract class Pawn : MonoBehaviour
     [HideInInspector] public Mover mover;
     // Add the shooting component to our pawn
     [HideInInspector] public Shooter shooter;
+    // Add the health component to our pawn
+    [HideInInspector] public Health health;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public abstract void Start();
@@ -30,6 +32,10 @@ public abstract class Pawn : MonoBehaviour
     public abstract void MoveBackward();
     public abstract void RotateClockwise();
     public abstract void RotateCounterClockwise();
+    public abstract void RotateTowards(Vector3 position);
+    public abstract void Seek(Vector3 position);
+    public abstract void Seek(GameObject objectToSeek);
+    public abstract void Seek(Controller controllerToSeek);
     // Create an abstract function to shoot, this is abstract so we can define it in individual children classes
     public abstract void Shoot();
 }

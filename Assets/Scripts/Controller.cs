@@ -9,7 +9,7 @@ public abstract class Controller : MonoBehaviour
     // Create and define the body the controller will "control/use" so it can be used for multiple objects with the same code
     // Set this to public so it can be accessed outside of this class, {This also serializes this data, which allows it to be accessed/modified within the editor}
     // NOTE: There is no need for this data to be accessable within the inspector
-    [HideInInspector] public Pawn pawn;
+    public Pawn pawn;
 
     public abstract void Awake();
     // Create the abstract function definintions, so they can be defined within the child controller class
