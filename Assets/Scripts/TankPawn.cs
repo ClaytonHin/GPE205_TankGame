@@ -76,33 +76,12 @@ public class TankPawn : Pawn
         Quaternion rotationVector = Quaternion.LookRotation(vectorToTarget, Vector3.up);
 
         // Modify the rotation to smoothly transition from the current rotation, and the updated rotationVector value
-        // We can use a quanternion to achieve this smooth transition based on the pawn's turn speed value
-        this.transform.rotation = Quaternion.RotateTowards(this.transform.rotation, rotationVector, this.turnSpeed);
+        // We can use a quanternion to achieve this smooth transition based on the game's frame rate
+        this.transform.rotation = Quaternion.RotateTowards(this.transform.rotation, rotationVector, this.turnSpeed * Time.deltaTime);
 
     }
 
-    // Create a function to seek out a specific position
-    public override void Seek(Vector3 positionToSeek)
-    {
-        // Rotate twoards the target position
-        RotateTowards(positionToSeek);
 
-        // Move the Pawn forward
-        MoveForward();
-    }
-
-    // Create an overload function for the seek function, to search for a gameobject's position
-    public override void Seek(GameObject objectToSeek)
-    {
-        // Call the seek method and pass in the objects position/transform
-        Seek(objectToSeek.transform.position);
-    }
-
-    // Create an overload function for the seek function, to search for a controller's pawn position
-    public override void Seek(Controller controllerToSeek)
-    {
-        Seek(controllerToSeek.pawn.gameObject);
-    }
 
     // Override and define the Shoot function
     public override void Shoot()

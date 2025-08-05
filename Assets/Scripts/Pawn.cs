@@ -33,9 +33,6 @@ public abstract class Pawn : MonoBehaviour
     public abstract void RotateClockwise();
     public abstract void RotateCounterClockwise();
     public abstract void RotateTowards(Vector3 position);
-    public abstract void Seek(Vector3 position);
-    public abstract void Seek(GameObject objectToSeek);
-    public abstract void Seek(Controller controllerToSeek);
     // Create an abstract function to shoot, this is abstract so we can define it in individual children classes
     public abstract void Shoot();
 }
