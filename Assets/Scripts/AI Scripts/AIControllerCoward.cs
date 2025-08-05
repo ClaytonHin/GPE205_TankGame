@@ -17,7 +17,7 @@ public class AIControllerCoward : AIController
     }
 
     // Update is called once per frame
-    public override void MakeDescisions()
+    public override void Update()
     {
  
 
