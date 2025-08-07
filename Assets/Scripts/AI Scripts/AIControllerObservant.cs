@@ -10,6 +10,11 @@ public class AIControllerObservant : AIController
 
         // Attempt to find player[0] 
         TargetPlayerByNumber(0);
+
+        // Add this pawn to the GameManager list
+        GameManager.instance.aiControllers.Add(this);
+        // Change the name of the object that is created, so it is easier to differentiate between them when they are all in one scene
+        gameObject.name = "AIController " + GameManager.instance.pawns.Count;
     }
 
     // Update is called once per frame
@@ -27,13 +32,12 @@ public class AIControllerObservant : AIController
                 }
 
                 // Check for transitions
-                if (CanSee(target))
+                if (CanHear(target))
                 {
                     ChangeState(AIStates.CHASEANDSHOOT);
                 }
-
-
                 break;
+
             case AIStates.CHASEANDSHOOT:
                 if (target == null)
                 {
@@ -43,9 +47,11 @@ public class AIControllerObservant : AIController
                 Seek(target);
                 Shoot();
 
-
-
-
+                // Check for transitions
+                if (!CanHear(target))
+                {
+                    ChangeState(AIStates.GUARD);
+                }
                 break;
         }
     }

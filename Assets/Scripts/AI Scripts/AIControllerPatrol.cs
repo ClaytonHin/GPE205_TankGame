@@ -8,6 +8,11 @@ public class AIControllerPatrol : AIController
         // Change the current state to be the partol state by default
         ChangeState(AIStates.PATROL);
         TargetPlayerByNumber(0);
+
+        // Add this pawn to the GameManager list
+        GameManager.instance.aiControllers.Add(this);
+        // Change the name of the object that is created, so it is easier to differentiate between them when they are all in one scene
+        gameObject.name = "AIController " + GameManager.instance.pawns.Count;
     }
 
     public override void MakeDescisions()

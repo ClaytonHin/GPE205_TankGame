@@ -14,6 +14,11 @@ public class AIControllerCoward : AIController
 
         // Attempt to find player[0] 
         TargetPlayerByNumber(0);
+
+        // Add this pawn to the GameManager list
+        GameManager.instance.aiControllers.Add(this);
+        // Change the name of the object that is created, so it is easier to differentiate between them when they are all in one scene
+        gameObject.name = "AIController " + GameManager.instance.pawns.Count;
     }
 
     // Update is called once per frame
