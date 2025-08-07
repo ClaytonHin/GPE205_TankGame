@@ -6,9 +6,19 @@ public class TankShooter : Shooter
     public GameObject projectilePrefab;
     // Get the position on where the object is shooting from
     public Transform shootPosition;
+    // Create a public variable to hold the noisemaker component
+    private NoiseMaker noiseMaker;
+    // Create a public variable to store the amount of nise made when the object is shooting
+    public float shootingNoiseVolume;
 
     // Create a variable to hold the time between shots
     [HideInInspector] public float nextShootTime;
+
+    public override void Start()
+    {
+        // Get the noisemaker component from the parent object
+        noiseMaker = GetComponent<NoiseMaker>();
+    }
 
     public override void TryShoot(Pawn shooterPawn)
     {
@@ -44,5 +54,11 @@ public class TankShooter : Shooter
         // Reset the shoot time variable, and devide our value to convert shotsPerSecond into secondsPerShot
         // EXAMPLE: If shotsPerSecond's value is 10, then you will shoot ever 1/10th of a second
         nextShootTime = Time.time + (1 / shooterPawn.shotsPerSecond);
+
+        // Make noise if the noisemaker component is attached
+        if (noiseMaker != null)
+        {
+            noiseMaker.MakeNoise(shootingNoiseVolume);
+        }
     }
 }

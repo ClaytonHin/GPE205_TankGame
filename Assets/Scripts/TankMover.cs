@@ -5,12 +5,18 @@ public class TankMover : Mover
 {
     // Create a public variable to store the parents rigidbody component from its parent object (AKA the Tank's Rigidbody)
     public Rigidbody m_Rigidbody;
+    // Create a public variable to store the parents noisemaker component fomr it's parent object
+    public NoiseMaker noiseMaker;
+    // Create a public variable to store the amount of noise made when the object is moving
+    public float movementNoiseVolume;
 
     // Override and define the mover functions
     public override void Start()
     {
         //Get the rigidbody compoment from the object this component is attached to, and store its value in the rigidbody variable within this class
         m_Rigidbody = GetComponent<Rigidbody>();
+        // Get the noisemaker component from the object this component is attached to
+        noiseMaker = GetComponent<NoiseMaker>();
     }
 
     public override void Update()
@@ -21,6 +27,9 @@ public class TankMover : Mover
     {
         // Move the player foward by moving their transform position based on the movement speed and the frame rate 
         m_Rigidbody.MovePosition(m_Rigidbody.position + (transform.forward * moveSpeed * Time.deltaTime));
+
+        // Add noise whenever the tank moves forward
+        if (noiseMaker != null) noiseMaker.MakeNoise(movementNoiseVolume);
     }
 
     public override void MoveBackward(float moveSpeed)
@@ -28,6 +37,9 @@ public class TankMover : Mover
         // Move the player backwards from their current transform position based on their movement speed and the frame rate
         // This means we reverse our transform forward, and make its value negative to move backwards
         m_Rigidbody.MovePosition(m_Rigidbody.position + (-transform.forward * moveSpeed * Time.deltaTime));
+
+        // Add noise whenever the tank moves backwards
+        if (noiseMaker != null) noiseMaker.MakeNoise(movementNoiseVolume);
     }
 
     public override void RotateClockwise(float turnSpeed)
@@ -36,6 +48,9 @@ public class TankMover : Mover
         // Ensure to only rotate around the y axis
         // Rotate takes 3 parameters (X rotation, Y rotation, Z rotation) 
         transform.Rotate(0, turnSpeed * Time.deltaTime, 0);
+
+        // Add noise whenever the tank rotates clockwise
+        if (noiseMaker != null) noiseMaker.MakeNoise(movementNoiseVolume);
     }
 
     public override void RotateCounterClockwise(float turnSpeed)
@@ -43,5 +58,8 @@ public class TankMover : Mover
         // Rotate the object counterclockwise based on the turn speed and the frame rate
         // We can achive this by flipping the turn speed value into a negative value. So it rotates left instead of right
         transform.Rotate(0, -turnSpeed * Time.deltaTime, 0);
+
+        // Add noise whenever the tank rotates counter clockwise
+        if (noiseMaker != null) noiseMaker.MakeNoise(movementNoiseVolume);
     }
 }

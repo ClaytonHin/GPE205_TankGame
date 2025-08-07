@@ -1,0 +1,52 @@
+using UnityEngine;
+
+public class AIControllerObservant : AIController
+{
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    public override void Start()
+    {
+        // Set our starting state
+        ChangeState(AIStates.GUARD);
+
+        // Attempt to find player[0] 
+        TargetPlayerByNumber(0);
+    }
+
+    // Update is called once per frame
+    public override void Update()
+    {
+        // Define the switch case to handle the FSM behavior
+        switch(currentState)
+        {
+            case AIStates.GUARD:
+                // Do work
+                Guard();
+                if (target == null)
+                {
+                    TargetPlayerByNumber(0);
+                }
+
+                // Check for transitions
+                if (CanSee(target))
+                {
+                    ChangeState(AIStates.CHASEANDSHOOT);
+                }
+
+
+                break;
+            case AIStates.CHASEANDSHOOT:
+                if (target == null)
+                {
+                    TargetPlayerByNumber(0);
+                }
+                // Do work
+                Seek(target);
+                Shoot();
+
+
+
+
+                break;
+        }
+    }
+}

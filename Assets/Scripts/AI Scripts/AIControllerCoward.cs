@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class AIControllerCoward : AIController
 {
-    public float fleeDistance = 50;
-    public float safeDistance = 25;
+    public float fleeDistance = 25;
+    public float safeDistance = 10;
     [Range(0,1)]public float fleeHealthPercent = 0.5f;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -25,26 +25,23 @@ public class AIControllerCoward : AIController
         switch (currentState)
         {
             case AIStates.GUARD:
-                // Check to ensure our target has a value
-                if (target == null)
-                {
-                    // If the target has no value currently, then try to target the player
-                    TargetPlayerByNumber(0);
-                }
-
                 // Call the guard function if we are within the Guard state // DO THE WORK
                 Guard();
-
                 // Check for any transitions
-                // Check if the player is within 50 meters from the AI
+                // Check if the player is within 10 meters from the AI
                 if (IsTargetWithinDistance(safeDistance))
                 {
-                    // If the player is within 50 meters, transition states into BACKAWAYANDSHOOT
+                    // If the player is within 10 meters, transition states into BACKAWAYANDSHOOT
                     ChangeState(AIStates.BACKAWAYANDSHOOT);
                 }
                 break;
 
             case AIStates.BACKAWAYANDSHOOT:
+                if (target == null)
+                {
+                    // If the target has no value currently, then try to target the player
+                    TargetPlayerByNumber(0);
+                }
                 // Call the BackAway and Shoot functions if we have transitioned to this state
                 BackAway();
                 Shoot();
@@ -65,6 +62,11 @@ public class AIControllerCoward : AIController
                 break;
 
             case AIStates.FLEE:
+                if (target == null)
+                {
+                    // If the target has no value currently, then try to target the player
+                    TargetPlayerByNumber(0);
+                }
                 // Call the Flee function if we have transitioned into this state
                 Flee();
 

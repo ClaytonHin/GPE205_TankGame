@@ -26,6 +26,11 @@ public class AIControllerSpeedy : AIController
                 break;
 
             case AIStates.CHASEANDSHOOT:
+                if (target == null)
+                {
+                    // If the target has no value currently, then try to target the player
+                    TargetPlayerByNumber(0);
+                }
                 // Do the work of the CHASEANDSHOOT state
                 Chase();
                 Shoot();

@@ -12,14 +12,21 @@ public class AIController : Controller
     protected float lastStateChangeTime;
     // Create a object to store the target we are shooting, or fleeing from
     protected GameObject target;
+    // Create a variable to store the field of view value'
+    public float fieldOfView;
+    [Header("Patrol Values")]
     // Create a list to store the patrol points
     public List<Transform> waypoints;
     // Create a variable to store the integer value which which waypoint we are at; We will start at position 0
     private int currentWaypoint = 0;
     // Create a variable to store a float value that will stop the AI from seeking if that value is met
-    public float seekCutoffDistance = 1;
+    protected float seekCutoffDistance = 1;
     // Create a variable to store the total amount of distance we want to look ahead with the raycast
-    public float lookAheadDistance = 5;
+    protected float lookAheadDistance = 5;
+    [Header("Sense Values")]
+    // Create a variable to store the radius or the range that the AI can hear
+    public float hearingSensitivity;
+
 
     public override void Awake()
     {
@@ -62,6 +69,11 @@ public class AIController : Controller
     // Create a boolian function that will check the distance the AI is from it's target
     public bool IsTargetWithinDistance(float distance)
     {
+        if (target == null)
+        {
+            return false;
+        }
+
         // Check if our AI pawns position, and the target/player position has a value less than the distance parameter
         if (Vector3.Distance(pawn.transform.position, target.transform.position) < distance)
         {
@@ -73,6 +85,88 @@ public class AIController : Controller
             // If the distance between the two transform is greater than the distance 
             return false;
         }
+    }
+
+    // Create a function that will determine if the AI can hear a target (If the target is making noise within the hearingSensitiviy radius)
+    public bool CanHear(GameObject target)
+    {
+        // Check to ensure that there is a target
+        if (target == null)
+        {
+            return false;
+        }
+
+        // Create a vector 3 variable that will store the distance between our AI pawn's transform and the target's transform
+        float distanceToTarget = Vector3.Distance(target.transform.position, pawn.transform.position);
+        // Create a NoiseMaker variable to interacti wtih the targets NoiseMaker component information
+        NoiseMaker targetNoiseMaker = target.GetComponent<NoiseMaker>();
+
+        // Check to ensure the target has a NoiseMaker component
+        if (targetNoiseMaker == null)
+       {
+            // If it does not then it can not make sound, so return false
+            return false;
+        }
+
+        // If the two sphere ranges overlap
+        if (targetNoiseMaker.noiseVolume + hearingSensitivity > distanceToTarget)
+        {
+            // The target can be heard
+            return true;
+        }
+
+        // Target can not be heard
+        return false;
+   
+      }
+
+    // Create a function to determine if we can see the player within a field of vision
+    public bool CanSee (GameObject target)
+    {
+        // Check to ensure that the target has a value
+        if (target == null)
+        {
+            return false;
+        }
+
+        // Get the vector value to the object
+        Vector3 vectorToTarget = target.transform.position - pawn.transform.position;
+
+        // Get the angle between the forward vector and the vector to the target
+        float angleToTarget = Vector3.Angle(vectorToTarget, pawn.transform.forward);
+
+        // If angleToTarget is greater than our field of view, than that object is loated outside of the current field of view
+        if (angleToTarget > fieldOfView)
+        {
+            // The object is within our field of view so return true
+            return false;
+        }
+
+        // Create a variable to store the view point 
+        Vector3 eyePoint = pawn.transform.position + (Vector3.up * 2);
+
+        //Create a hit info variable to store the information that is output by the raycast
+        RaycastHit hitInfo;
+
+        // Do a check to ensure the target is within the line of sight
+        // This can be achieved by using a raycast
+        if (Physics.Raycast(eyePoint, vectorToTarget, out hitInfo, Mathf.Infinity))
+        {
+            // The raycast hit an object
+            // Check to see if the raycast hit our target
+            if (hitInfo.collider.gameObject == target)
+            {
+                // If we hit the target directly then we can see it
+                return true;
+            }
+            else
+            {
+                // We can not see the target directly
+                return false;
+            }
+        }
+        // No object was hit by the raycast, so we can not see our target
+        return false;
     }
 
     // Create a change state function that will transition the AI FSM between the different states when neccessary
@@ -147,7 +241,7 @@ public class AIController : Controller
         else
         {
             // If CanMoveForward is false then rotate to avoid the obstacle
-            pawn.RotateClockwise();
+            pawn.RotateCounterClockwise();
         }
     }
 
@@ -161,6 +255,7 @@ public class AIController : Controller
         {
             TargetPlayerByNumber(0);
         }
+
     }
 
     public void Chase()
