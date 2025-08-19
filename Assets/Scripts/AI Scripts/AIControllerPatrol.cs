@@ -6,7 +6,7 @@ public class AIControllerPatrol : AIController
     public override void Start()
     {
         // Change the current state to be the partol state by default
-        ChangeState(AIStates.PATROL);
+        ChangeState(AIStates.GUARD);
         TargetPlayerByNumber(0);
 
         // Add this pawn to the GameManager list
@@ -19,6 +19,10 @@ public class AIControllerPatrol : AIController
     {
         switch (currentState)
         {
+            case AIStates.GUARD:
+                Guard();
+                break;
+
             case AIStates.PATROL:
                 // Check to ensure our target has a value
                 if (target == null)
