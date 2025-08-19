@@ -182,8 +182,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 133809b15968ee24881d8bee192661cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomizationType: 1
-  mapSeed: 1
+  randomizationType: 2
+  mapSeed: 5
   roomPrefabs:
   - {fileID: 2229787046247183857, guid: edb77c1c359c6684faa9b7ffe2ed58af, type: 3}
   - {fileID: 5190141870090965113, guid: d1ad7749ebbbb7845ab83baa2a83a024, type: 3}

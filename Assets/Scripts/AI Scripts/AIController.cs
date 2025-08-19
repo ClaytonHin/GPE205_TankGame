@@ -38,7 +38,7 @@ public class AIController : Controller
         // When this script is started, start the AI state to be defaulted to the guard state
         currentState = AIStates.GUARD;
 
-        target = GameManager.instance.players[0].pawn.gameObject;
+        TargetPlayerByNumber(0);
     }
 
     // Update is called once per frame

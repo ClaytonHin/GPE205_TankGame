@@ -281,7 +281,7 @@ MonoBehaviour:
   doorSouth: {fileID: 453308659000151937}
   doorEast: {fileID: 2272244323570411442}
   doorWest: {fileID: 6000369985428596549}
-  playerSpawn: {fileID: 0}
+  playerSpawn: {fileID: 7871740862631750062}
 --- !u!1 &2272244323570411442
 GameObject:
   m_ObjectHideFlags: 0
