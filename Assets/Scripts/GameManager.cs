@@ -32,6 +32,22 @@ public class GameManager : MonoBehaviour
     // Create a LevelGenerator object, to generate levels within the game manager
     public LevelGenerator levelGenerator;
 
+    // Create a header to store the states that will happen during gameplay for UI elements
+    [Header("Gameplay State Objects")]
+    // Create a variable to store the start state of the game (UI)
+    public GameObject pressStartStateObject;
+    // Create a variable to store the game state when the game is in the main menu (UI)
+    public GameObject mainMenuStateObject;
+    // Create a variable to store the game state when it is being played (UI)
+    public GameObject playGameStateObject;
+    // Create a variable to store what happens when the game is won (UI)
+    public GameObject gameOverVictoryStateObject;
+    // Create a variable to store what happens when the game is lost (UI)
+    public GameObject gameOverFailureStateObject;
+    // Create a variable to store the game options menus
+    public GameObject gameOptionsStateObject;
+    // Create a variable to store the credits menu
+    public GameObject creditsStateObject;
 
     // Awake is executed right before an object in created in the scene
     private void Awake()
@@ -55,11 +71,78 @@ public class GameManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        // Start the game in the beginning press start state
+        ChangeGameplayState(pressStartStateObject);
+    }
+
+    // Create a function that will change the game state depending on the state of the game
+    private void ChangeGameplayState(GameObject gameplayStateObject)
+    {
+        // Deactivate all of the game states
+        DeactivateAllStates();
+        // Move into the new game state/ Activate the desired game state
+        gameplayStateObject.SetActive(true);
+
+    }
+
+    // Create a function that will deactivate all of the game states
+    private void DeactivateAllStates()
+    {
+        // Set all of the game state objects to be inactive
+        pressStartStateObject.SetActive(false);
+        playGameStateObject.SetActive(false);
+        mainMenuStateObject.SetActive(false);
+        gameOverVictoryStateObject.SetActive(false);
+        gameOverFailureStateObject.SetActive(false);
+        gameOptionsStateObject.SetActive(false);
+        creditsStateObject.SetActive(false);
+    }
+
+    // Create a function that will transition the game state into the main menu 
+    public void ActivateMainMenu()
+    {
+        // Change into the main menu gameplay state
+        ChangeGameplayState(mainMenuStateObject);
+    }
+
+    // Create a function that will transition the game state into the options menu 
+    public void ActivateOptionsMenu()
+    {
+        // TODO: There are no options to change, so just leave this commented out for now. Add options later
+        ChangeGameplayState(gameOptionsStateObject);
+    }
+
+    // Create a function that will transition the game state into the credits menu
+    public void ActivateCreditsMenu()
+    {
+        // TODO: ADD A CREDITS MENU OBJECT LATER
+        ChangeGameplayState(creditsStateObject);
+    }
+
+    // Create a function that will transition the game state into the play game state
+    public void ActivateGameplay()
+    {
+        // Activate the Gameplay state
+        ChangeGameplayState(playGameStateObject);
+        // Start the game, and set or reset values for score, lives, etc.
+
         // Generate the level
         levelGenerator.GenerateLevel();
 
         // Spawn the player when the script begins execution
         SpawnPlayer(Vector3.zero);
+    }
+
+    // Create a function that will transition the game state into the victory menu
+    public void ActivateVictoryMenu()
+    {
+        ChangeGameplayState(gameOverVictoryStateObject);
+    }
+
+    //
+    public void ActivateDefeatMenu()
+    {
+        ChangeGameplayState(gameOverFailureStateObject);
     }
 
     // Create a function to add the Respawn Point components to the respawn points list
@@ -118,7 +201,7 @@ public class GameManager : MonoBehaviour
         TankPawn tempPlayerPawn = tempPlayerPawnObject.GetComponent<TankPawn>();
         // Move the player pawn to the spawn position; This is passed in as a parameter for this function
         tempPlayerPawnObject.transform.position = spawnPosition;
-        // Reattach the controller component to the Player/Tank Pawn
-        tempPlayerController.pawn = tempPlayerPawn;
+        // Reattach the controller component to the Player/Tank Pawn (This also sets the camera)
+        tempPlayerController.Possess(tempPlayerPawn);
     }
 }
