@@ -1,0 +1,107 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &4559621891398490534
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: b7e8788dd89713146a97b3bdb741f0c4, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -6.311
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b7e8788dd89713146a97b3bdb741f0c4, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.514
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b7e8788dd89713146a97b3bdb741f0c4, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -7.72
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b7e8788dd89713146a97b3bdb741f0c4, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b7e8788dd89713146a97b3bdb741f0c4, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b7e8788dd89713146a97b3bdb741f0c4, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b7e8788dd89713146a97b3bdb741f0c4, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b7e8788dd89713146a97b3bdb741f0c4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b7e8788dd89713146a97b3bdb741f0c4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b7e8788dd89713146a97b3bdb741f0c4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b7e8788dd89713146a97b3bdb741f0c4, type: 3}
+      propertyPath: m_Name
+      value: ScorePowerup
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: b7e8788dd89713146a97b3bdb741f0c4, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7005627658556560568}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: b7e8788dd89713146a97b3bdb741f0c4, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8939251791771473759}
+  m_SourcePrefab: {fileID: 100100000, guid: b7e8788dd89713146a97b3bdb741f0c4, type: 3}
+--- !u!1 &3712776035908707575 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: b7e8788dd89713146a97b3bdb741f0c4, type: 3}
+  m_PrefabInstance: {fileID: 4559621891398490534}
+  m_PrefabAsset: {fileID: 0}
+--- !u!135 &7005627658556560568
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3712776035908707575}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &8939251791771473759
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3712776035908707575}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0071efc9c0bffb14ab20823059e0e904, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  powerup:
+    isPermanent: 1
+    powerupDuration: 0
+    scoreToAdd: 5

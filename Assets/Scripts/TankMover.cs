@@ -25,6 +25,12 @@ public class TankMover : Mover
 
     public override void MoveForward(float moveSpeed)
     {
+        // Check to ensure the rigidbody has not been destroyed before moving
+        if (m_Rigidbody == null)
+        {
+            return;
+        }
+
         // Move the player foward by moving their transform position based on the movement speed and the frame rate 
         m_Rigidbody.MovePosition(m_Rigidbody.position + (transform.forward * moveSpeed * Time.deltaTime));
 
@@ -34,6 +40,12 @@ public class TankMover : Mover
 
     public override void MoveBackward(float moveSpeed)
     {
+        // Check to ensure the rigidbody has not been destroyed before moving
+        if (m_Rigidbody == null)
+        {
+            return;
+        }
+
         // Move the player backwards from their current transform position based on their movement speed and the frame rate
         // This means we reverse our transform forward, and make its value negative to move backwards
         m_Rigidbody.MovePosition(m_Rigidbody.position + (-transform.forward * moveSpeed * Time.deltaTime));
@@ -44,6 +56,12 @@ public class TankMover : Mover
 
     public override void RotateClockwise(float turnSpeed)
     {
+        // Check to ensure the rigidbody has not been destroyed before moving
+        if (m_Rigidbody == null)
+        {
+            return;
+        }
+
         // Rotate the object clockwise based on the turn speed and the frame rate
         // Ensure to only rotate around the y axis
         // Rotate takes 3 parameters (X rotation, Y rotation, Z rotation) 
@@ -55,6 +73,12 @@ public class TankMover : Mover
 
     public override void RotateCounterClockwise(float turnSpeed)
     {
+        // Check to ensure the rigidbody has not been destroyed before moving
+        if (m_Rigidbody == null)
+        {
+            return;
+        }
+
         // Rotate the object counterclockwise based on the turn speed and the frame rate
         // We can achive this by flipping the turn speed value into a negative value. So it rotates left instead of right
         transform.Rotate(0, -turnSpeed * Time.deltaTime, 0);

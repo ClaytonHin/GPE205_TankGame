@@ -22,6 +22,8 @@ public abstract class Pawn : MonoBehaviour
     [HideInInspector] public Shooter shooter;
     // Add the health component to our pawn
     [HideInInspector] public Health health;
+    // Add a reference to the controller that is controlling this pawn
+    [HideInInspector] public Controller controller;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public abstract void Start();

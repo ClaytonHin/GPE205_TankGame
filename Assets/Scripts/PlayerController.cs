@@ -1,10 +1,17 @@
-using UnityEngine;
 // Include the System.Collections.Generic library to access extra functionality
 using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
 
 // Modify the parent class for this specific class; Specifically to inherit the methods and properties of our controller class
 public class PlayerController : Controller
 {
+    [Header("Player Data")]
+    // Create a variable to store the player's current score
+    public int playerScore;
+    // Create a variable to store the player's starting lives
+    public int lives = 3;
+
     [Header("Input Keys")]
     // Create keycodes the correlate the inputs on mouse and keyboard
     // These will be used in combination with Input.GetKey to determine which key the player is pressing, and which action that correlates to
@@ -25,15 +32,18 @@ public class PlayerController : Controller
     // Awake is run when the object is first created
     public override void Awake()
     {
+        // Add our player controller to our list of players within the GameManager Object
+        GameManager.instance.players.Add(this);
+        // Change our objects name, to better differentiate between multiple objects within one scene; 
+        gameObject.name = "Player " + GameManager.instance.players.Count;
     }
 
     // Start is called once before the first execution of Update after MonoBehaviour is created
     public override void Start()
     {
-        // Add our player controller to our list of players within the GameManager Object
-        GameManager.instance.players.Add(this);
-        // Change our objects name, to better differentiate between multiple objects within one scene; 
-        gameObject.name = "Player " + GameManager.instance.players.Count;
+        // Set the initial UI values for the player
+        GameplayUI.instance.UpdateScoreText(playerScore);
+        GameplayUI.instance.UpdateLivesText(lives);
     }
 
     // Update is called once per frame
@@ -57,6 +67,9 @@ public class PlayerController : Controller
         // Possess the pawn
         pawn = pawnToPossess;
 
+        // Set the pawn's controller to this controller
+        pawn.controller = this;
+
         // Check if the player camera exists
         if (playerCamera != null)
         {
@@ -71,6 +84,20 @@ public class PlayerController : Controller
             playerCamera.transform.LookAt(pawn.transform.position + playerWorldAimOffset);
             // Attach the camera to the player pawn, so it will follow the player
             playerCamera.transform.parent = pawn.transform;
+        }
+    }
+
+    // Create a function that will add to the player's score
+    public void AddScore(int amountOfScoreToAdd)
+    {
+        // Add the amount of score to the player's current score
+        playerScore += amountOfScoreToAdd;
+
+        // Check if the Gameplay UI instance exists
+        if (GameplayUI.instance != null)
+        {
+            // If so, then update the score text UI whenever a player's score changes
+            GameplayUI.instance.UpdateScoreText(playerScore);
         }
     }
 

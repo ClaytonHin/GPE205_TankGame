@@ -7,6 +7,9 @@ public class DamageOnHit : MonoBehaviour
     // Create a variable to control the length of time a projectile will exist
     public float lifespan = 2;
 
+    // Create a variable to track who the projectile was fired by
+    public Pawn shotOwner;
+
     // Check if our collider has hit any other objects
     public void OnTriggerEnter(Collider other)
     {
@@ -17,7 +20,7 @@ public class DamageOnHit : MonoBehaviour
         if (otherHealth != null )
         {
             // Damange the other component this object collided with
-            otherHealth.TakeDamage(damageDealtOnHit);
+            otherHealth.TakeDamage(damageDealtOnHit, shotOwner);
         }
 
         // Destroy the bullet when it collides

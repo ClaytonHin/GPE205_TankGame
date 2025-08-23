@@ -38,12 +38,18 @@ public class AIController : Controller
         // When this script is started, start the AI state to be defaulted to the guard state
         currentState = AIStates.GUARD;
 
-        TargetPlayerByNumber(0);
+        TargetFirstAlivePlayer();
     }
 
     // Update is called once per frame
     public override void Update()
     {
+        // Check to ensure the AI still has a pawn
+        if (pawn == null)
+        {
+            return;
+        }
+
         //Make Descisions based on the state of the AI
         MakeDescisions();
     }
@@ -91,7 +97,7 @@ public class AIController : Controller
     public bool CanHear(GameObject target)
     {
         // Check to ensure that there is a target
-        if (target == null)
+        if (pawn == null || target == null)
         {
             return false;
         }
@@ -124,7 +130,7 @@ public class AIController : Controller
     public bool CanSee (GameObject target)
     {
         // Check to ensure that the target has a value
-        if (target == null)
+        if (pawn == null || target == null)
         {
             return false;
         }
@@ -203,6 +209,30 @@ public class AIController : Controller
 
     }
 
+    // Create a function that will target the first alive player it can find
+    public void TargetFirstAlivePlayer()
+    {
+        // Reset the targets value
+        target = null;
+
+        // Check to see if the game manager instance exists, if so then check if there are even any players in the game
+        if (GameManager.instance != null && GameManager.instance.players.Count > 0)
+        {
+            // If there is both a game manager instanc, and players within the players list
+            // Loop through each player in the list
+            foreach (var player in GameManager.instance.players)
+            {
+                //Check if the player exists, and that the pawn is alive
+                if (player != null && player.pawn != null)
+                {
+                    // Set the target to be the first player pawn found in the list of players
+                    target = player.pawn.gameObject;
+                    return;
+                }
+            }
+        }
+    }
+
     // Create a function that will spawn a raycast to determine if the AI is steering into a wall
     public bool CanMoveForward()
     {
@@ -247,19 +277,28 @@ public class AIController : Controller
 
     public void Guard()
     {
-        // Rotate the AI Pawn
-        pawn.RotateClockwise();
-
-        // If there is no current target, look for player[0] 
+        // Check if there is a pawn
+        if (pawn == null)
+        {
+            return;
+        }
+        // Check if there is a target
         if (target == null)
         {
-            TargetPlayerByNumber(0);
+            TargetFirstAlivePlayer();
         }
-
+        // Rotate the AI Pawn
+        pawn.RotateClockwise();
     }
 
     public void Chase()
     {
+        // If there is no current target, look for player[0]
+        if (pawn == null || target == null)
+        {
+            return;
+        }
+
         // Turn towards the target position
         pawn.RotateTowards(target.transform.position);
 
@@ -269,6 +308,11 @@ public class AIController : Controller
 
     public void Flee()
     {
+        // If there is no current target, look for player[0]
+        if (pawn == null || target == null)
+        {
+            return;
+        }
         // Find the initial vector to the target, and use it's value to find a negative point in "Vector Space" behind the AI Pawn's initial vector.
         // We can find this negative point by multiplying the vectors by -1, which flips the vector's direction
         Vector3 vectorToTarget = -1 * (target.transform.position - pawn.transform.position);
@@ -282,12 +326,34 @@ public class AIController : Controller
 
     public void Shoot()
     {
+        // If there is no current target, look for player[0]
+        if (pawn == null || target == null)
+        {
+            return;
+        }
         // Begin shooting at the player pawn
         pawn.Shoot();
     }
 
     public void BackAway()
     {
+        // Check if the AI controller has a pawn
+        if (pawn == null)
+        {
+            return;
+        }
+        // If we do not have an initial target
+        if (target == null)
+        {
+            // Target the first player found in the player's list
+            TargetFirstAlivePlayer();
+        }
+        // If the target is still null after targeting a player, then return
+        if (target == null)
+        {
+            return;
+        }
+
         // Turn/rotate until facing the player, and then move backwards
         pawn.RotateTowards(target.transform.position);
 
@@ -297,6 +363,13 @@ public class AIController : Controller
 
     public void Patrol()
     {
+        // Check to ensure we have a pawn, and a list of waypoints before patroling
+        if (pawn == null || waypoints == null || waypoints.Count == 0)
+        {
+            // If we do not have any of the above checks, then don't patrol
+            return;
+        }
+
         // Move to the current point that the AI is patrolling towards
         Seek(waypoints[currentWaypoint].position);
 
@@ -317,6 +390,12 @@ public class AIController : Controller
     // Create a function to seek out a specific position
     public void Seek(Vector3 positionToSeek)
     {
+        // Check to ensure a AI pawn exists
+        if (pawn == null)
+        {
+            return;
+        }
+
         // Rotate twoards the target position
         pawn.RotateTowards(positionToSeek);
 
@@ -327,6 +406,12 @@ public class AIController : Controller
     // Create a function for the seek function, to search for a gameobject's position
     public void Seek(GameObject objectToSeek)
     {
+        // Check to ensure that the objectToSeek has a value before trying to seek
+        if (objectToSeek == null)
+        {
+            return;
+        }
+
         // Call the seek method and pass in the objects position/transform
         Seek(objectToSeek.transform.position);
     }
@@ -334,12 +419,30 @@ public class AIController : Controller
     // Create a function for the seek function, to search for a controller's pawn position
     public void Seek(Controller controllerToSeek)
     {
+        // Check to ensure that the controllerToSeek has a value before trying to seek
+        if (controllerToSeek == null || controllerToSeek.pawn == null)
+        {
+            return;
+        }
+
         Seek(controllerToSeek.pawn.gameObject);
     }
 
     public override void MakeDescisions()
     {
-        // The standard AI can't do anything but guard
+        // Check to see if we have a target
+        if (target == null)
+        {
+            // If we do not have a target, then try to find player[0]
+            TargetFirstAlivePlayer();
+            if (target == null)
+            {
+                // If we still do not have a target, then guard
+                Guard();
+                return;
+            }
+        }
+        // If we do have a target, then continue to guard
         Guard();
     }
 }

@@ -12,8 +12,8 @@ public class AIControllerCoward : AIController
         // Set our starting state
         ChangeState(AIStates.GUARD);
 
-        // Attempt to find player[0] 
-        TargetPlayerByNumber(0);
+        // Attempt to find the first player within the gamemanger player list
+        TargetFirstAlivePlayer();
 
         // Add this pawn to the GameManager list
         GameManager.instance.aiControllers.Add(this);
@@ -44,8 +44,8 @@ public class AIControllerCoward : AIController
             case AIStates.BACKAWAYANDSHOOT:
                 if (target == null)
                 {
-                    // If the target has no value currently, then try to target the player
-                    TargetPlayerByNumber(0);
+                    // If the target has no value currently, then try to target a player
+                    TargetFirstAlivePlayer();
                 }
                 // Call the BackAway and Shoot functions if we have transitioned to this state
                 BackAway();
@@ -70,7 +70,7 @@ public class AIControllerCoward : AIController
                 if (target == null)
                 {
                     // If the target has no value currently, then try to target the player
-                    TargetPlayerByNumber(0);
+                    TargetFirstAlivePlayer();
                 }
                 // Call the Flee function if we have transitioned into this state
                 Flee();

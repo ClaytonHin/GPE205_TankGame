@@ -6,7 +6,7 @@ public class AIControllerSpeedy : AIController
     public override void Start()
     {
         ChangeState(AIStates.GUARD);
-        TargetPlayerByNumber(0);
+        TargetFirstAlivePlayer();
 
         // Add this pawn to the GameManager list
         GameManager.instance.aiControllers.Add(this);
@@ -34,7 +34,7 @@ public class AIControllerSpeedy : AIController
                 if (target == null)
                 {
                     // If the target has no value currently, then try to target the player
-                    TargetPlayerByNumber(0);
+                    TargetFirstAlivePlayer();
                 }
                 // Do the work of the CHASEANDSHOOT state
                 Chase();

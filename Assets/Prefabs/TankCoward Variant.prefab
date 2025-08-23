@@ -76,7 +76,8 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[2]'
       value: 
       objectReference: {fileID: 2100000, guid: 265420af0238fa845a94d717feca5d94, type: 2}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5891693061998159924, guid: 318aac80aa6686f4091dea9cf1317c86, type: 3}
     m_RemovedGameObjects:
     - {fileID: 8147349594730011796, guid: 318aac80aa6686f4091dea9cf1317c86, type: 3}
     m_AddedGameObjects: []
@@ -84,6 +85,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5618140005750606839, guid: 318aac80aa6686f4091dea9cf1317c86, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7652335217703276178}
+    - targetCorrespondingSourceObject: {fileID: 5618140005750606839, guid: 318aac80aa6686f4091dea9cf1317c86, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -7934001816072475688}
   m_SourcePrefab: {fileID: 100100000, guid: 318aac80aa6686f4091dea9cf1317c86, type: 3}
 --- !u!1 &3113680969341154887 stripped
 GameObject:
@@ -110,6 +114,18 @@ MonoBehaviour:
   fleeDistance: 25
   safeDistance: 10
   fleeHealthPercent: 0.5
+--- !u!114 &-7934001816072475688
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3113680969341154887}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6f9783a58782f8439a53b9c9ab21755, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &5277275451233292309 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3457927620534103461, guid: 318aac80aa6686f4091dea9cf1317c86, type: 3}

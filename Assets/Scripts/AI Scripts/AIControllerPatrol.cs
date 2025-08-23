@@ -7,7 +7,7 @@ public class AIControllerPatrol : AIController
     {
         // Change the current state to be the partol state by default
         ChangeState(AIStates.GUARD);
-        TargetPlayerByNumber(0);
+        TargetFirstAlivePlayer();
 
         // Add this pawn to the GameManager list
         GameManager.instance.aiControllers.Add(this);
@@ -28,7 +28,7 @@ public class AIControllerPatrol : AIController
                 if (target == null)
                 {
                     // If the target has no value currently, then try to target the player
-                    TargetPlayerByNumber(0);
+                    TargetFirstAlivePlayer();
                 }
                 // Do Work
                 Patrol();
@@ -45,7 +45,7 @@ public class AIControllerPatrol : AIController
                 if (target == null)
                 {
                     // If the target has no value currently, then try to target the player
-                    TargetPlayerByNumber(0);
+                    TargetFirstAlivePlayer();
                 }
                 // Do work
                 Chase();

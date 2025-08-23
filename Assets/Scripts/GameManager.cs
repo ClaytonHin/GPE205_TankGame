@@ -49,6 +49,10 @@ public class GameManager : MonoBehaviour
     // Create a variable to store the credits menu
     public GameObject creditsStateObject;
 
+    [Header("Gameplay Settings")]
+    // Create a variable to store whether or not the game is in split screen mode
+    public bool isSplitScreen = false;
+
     // Awake is executed right before an object in created in the scene
     private void Awake()
     {
@@ -124,13 +128,41 @@ public class GameManager : MonoBehaviour
     {
         // Activate the Gameplay state
         ChangeGameplayState(playGameStateObject);
+
         // Start the game, and set or reset values for score, lives, etc.
+        ResetPlayerScore();
 
         // Generate the level
         levelGenerator.GenerateLevel();
 
-        // Spawn the player when the script begins execution
-        SpawnPlayer(Vector3.zero);
+        // Check if we are in singleplayer mode
+        if (!isSplitScreen)
+        {
+            // Spawn the player
+            SpawnPlayer(Vector3.zero);
+
+            // Set the players camera to be the correct viewport rect
+            Rect viewport = new Rect(0.0f, 0.0f, 1.0f, 1.0f);
+            // Assign the created viewport to the player's camera
+            players[0].playerCamera.rect = viewport;
+        }
+        else
+        {
+            // Spawn the first player
+            SpawnPlayer(Vector3.zero);
+
+            // Spawn a second player
+            SpawnPlayer(new Vector3(10, 0, 10));
+
+            // Set the players camera to be the correct viewport rect
+            Rect viewport = new Rect(0.0f, 0.0f, 0.5f, 1.0f);
+            // Assign the created viewport to the player's camera
+            players[0].playerCamera.rect = viewport;
+            // Create the viewport for the second player
+            viewport = new Rect(0.5f, 0.0f, 0.5f, 1.0f);
+            // Set player 2's camera to be the correct viewport rect
+            players[1].playerCamera.rect = viewport;
+        }
     }
 
     // Create a function that will transition the game state into the victory menu
@@ -164,6 +196,29 @@ public class GameManager : MonoBehaviour
         // Return the randomized respawn position
         return respawnPoints[respawnPosition];
     }
+
+    // Create a function to reset the player scores
+    public void ResetPlayerScore()
+    {
+        // Loop through each player in the players list
+        foreach (PlayerController player in players)
+        {
+            // Reset the player's score to 0
+            player.playerScore = 0;
+        }
+    }
+
+    // Create a helper function to activate when the game is over
+    public void PlayerLost(PlayerController player)
+    {
+        // If the player has no more lives left
+        if (player.lives <= 0)
+        {
+            // Activate the defeat menu
+            ActivateDefeatMenu();
+        }
+    }
+
 
     // Create a function that will spawn the player within the scene if a player does not already exist
     // Pass in the spawn position of the player as a parameter
@@ -203,5 +258,7 @@ public class GameManager : MonoBehaviour
         tempPlayerPawnObject.transform.position = spawnPosition;
         // Reattach the controller component to the Player/Tank Pawn (This also sets the camera)
         tempPlayerController.Possess(tempPlayerPawn);
+        // Set the pawns controller to the player controller
+        tempPlayerPawn.controller = tempPlayerController;
     }
 }

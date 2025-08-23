@@ -9,7 +9,7 @@ public class AIControllerObservant : AIController
         ChangeState(AIStates.GUARD);
 
         // Attempt to find player[0] 
-        TargetPlayerByNumber(0);
+        TargetFirstAlivePlayer();
 
         // Add this pawn to the GameManager list
         GameManager.instance.aiControllers.Add(this);
@@ -28,7 +28,7 @@ public class AIControllerObservant : AIController
                 Guard();
                 if (target == null)
                 {
-                    TargetPlayerByNumber(0);
+                    TargetFirstAlivePlayer();
                 }
 
                 // Check for transitions
@@ -41,7 +41,7 @@ public class AIControllerObservant : AIController
             case AIStates.CHASEANDSHOOT:
                 if (target == null)
                 {
-                    TargetPlayerByNumber(0);
+                    TargetFirstAlivePlayer();
                 }
                 // Do work
                 Seek(target);

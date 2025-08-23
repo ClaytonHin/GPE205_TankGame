@@ -6,10 +6,12 @@ public class TankShooter : Shooter
     public GameObject projectilePrefab;
     // Get the position on where the object is shooting from
     public Transform shootPosition;
-    // Create a public variable to hold the noisemaker component
+    // Create a variable to hold the noisemaker component
     private NoiseMaker noiseMaker;
-    // Create a public variable to store the amount of nise made when the object is shooting
+    // Create a variable to store the amount of nise made when the object is shooting
     public float shootingNoiseVolume;
+    // Create a variable to hold the audio source for the shooting sound
+    public AudioSource audioSource;
 
     // Create a variable to hold the time between shots
     [HideInInspector] public float nextShootTime;
@@ -18,6 +20,8 @@ public class TankShooter : Shooter
     {
         // Get the noisemaker component from the parent object
         noiseMaker = GetComponent<NoiseMaker>();
+        // Get the audio source component from the parent object
+        audioSource = GetComponent<AudioSource>();
     }
 
     public override void TryShoot(Pawn shooterPawn)
@@ -45,6 +49,9 @@ public class TankShooter : Shooter
         // Grab the amount of damage done based on what value the pawn sends in
         damageComponent.damageDealtOnHit = shooterPawn.damageDone;
 
+        // Set the shot owner to be the pawn that fired the projectile
+        damageComponent.shotOwner = shooterPawn;
+
         // Get the rigidbody component for the projectile
         Rigidbody bulletRB = bulletObject.GetComponent<Rigidbody>();
 
@@ -60,5 +67,8 @@ public class TankShooter : Shooter
         {
             noiseMaker.MakeNoise(shootingNoiseVolume);
         }
+
+        // Play the audio for shooting / creating a projectile
+        audioSource.Play();
     }
 }
